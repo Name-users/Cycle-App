@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TrainingProgram.If_else;
 
 namespace TrainingProgram
 {
@@ -21,8 +22,9 @@ namespace TrainingProgram
                 {
                     new Cycles(new List<ITemplateSubTheme>()
                     {
-                        new Cycle(), new CycleWhile(), new CycleDoWhile()
-                    })
+                        new CycleFor(), new CycleWhile(), new CycleDoWhile()
+                    }),
+                    new IfElse(new List<ITemplateSubTheme>())
                 }
                 ));
         }

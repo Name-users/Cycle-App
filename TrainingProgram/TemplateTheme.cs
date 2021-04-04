@@ -17,20 +17,11 @@ namespace TrainingProgram
         }
     }
 
-    public class Farm
-    {
-        public static Button CreateButton(string text, Point position, Action<object, EventArgs> func, Size size)
-        {
-            var button = new Button(){Text = text, Location = position, Size = size};
-            button.Click += (sender, args) => func(sender, args);
-            return button;
-        }
-    }
-
     public abstract class TemplateTheme : ITemplateTheme
     {
 
         private readonly List<ITemplateSubTheme> themes;
+        private ITemplateSubTheme currentSubTheme;
         private List<Button> buttons = new List<Button>();
         private bool ButtonExist => buttons.Count > 0;
 
@@ -51,15 +42,19 @@ namespace TrainingProgram
             for (var i = 0; i < themes.Count; i++)
             {
                 var last = i - 1 < 0 ? 0 : buttons[i - 1].Bottom;
-                buttons.Add(Farm.CreateButton(themes[i].GetName(),new Point(newSize.Width, last), themes[i].Click, newSize));
+                var currentTheme = themes[i];
+                var button = new Button(){Text = currentTheme.GetName(), Location = new Point(newSize.Width, last), Size = newSize};
+                button.Click += (sender, args) =>
+                {
+                    currentSubTheme = currentTheme;
+                    currentTheme.Click(sender, args);
+                };
+                buttons.Add(button);
             }
             return new Updates<Button>(buttons.AsReadOnly(), remove.AsReadOnly());
         }
 
         public abstract String GetName();
-        // public abstract String GetName() => "Cycles";
-
-        // public Point Location() => new Point(0, 0);
         public abstract Point Location();
 
         public Updates<Button> SizeChanged(EventArgs args, Size clientSize)

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TrainingProgram
 {
-    public class Cycle : ITemplateSubTheme
+    public class CycleFor : ITemplateSubTheme
     {
         public void Paint(PaintEventArgs args, Size size)
         {

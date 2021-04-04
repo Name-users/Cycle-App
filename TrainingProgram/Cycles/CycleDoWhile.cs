@@ -24,44 +24,4 @@ namespace TrainingProgram
 
         public string GetName() => "Do While";
     }
-    
-    // public class CycleFor : ITemplateForSubTheme
-    // {
-    //     public void Paint(PaintEventArgs args, Size size)
-    //     {
-    //         // throw new NotImplementedException();
-    //     }
-    //
-    //     public void SizeChanged(EventArgs args, Size size)
-    //     {
-    //         // throw new NotImplementedException();
-    //     }
-    //
-    //     public void Click(object sender, EventArgs args)
-    //     {
-    //         // throw new NotImplementedException();
-    //     }
-    //
-    //     public string GetName() => "For";
-    // }
-    //
-    // public class CycleWhile : ITemplateForSubTheme
-    // {
-    //     public void Paint(PaintEventArgs args, Size size)
-    //     {
-    //         // throw new NotImplementedException();
-    //     }
-    //
-    //     public void SizeChanged(EventArgs args, Size size)
-    //     {
-    //         // throw new NotImplementedException();
-    //     }
-    //
-    //     public void Click(object sender, EventArgs args)
-    //     {
-    //         // throw new NotImplementedException();
-    //     }
-    //
-    //     public string GetName() => "While";
-    // }
 }

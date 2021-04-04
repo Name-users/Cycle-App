@@ -47,9 +47,10 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Cycles\CycleDoWhile.cs" />
-        <Compile Include="Cycles\Cycle.cs" />
+        <Compile Include="Cycles\CycleFor.cs" />
         <Compile Include="Cycles\Cycles.cs" />
         <Compile Include="Cycles\CycleWhile.cs" />
+        <Compile Include="If else\IfElse.cs" />
         <Compile Include="UserInterface.cs">
             <SubType>Form</SubType>
         </Compile>
