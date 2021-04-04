@@ -10,7 +10,8 @@ namespace TrainingProgram
         void Paint(PaintEventArgs args, Size size);
         Updates<Button> SizeChanged(EventArgs args, Size size);
 
-        Button ThemeButton(Size size);
+        String GetName();
+        Point Location();
         // void SizeChanged();
         
         Updates<Button> Click(Size clientSize);

@@ -12,14 +12,15 @@ namespace TrainingProgram
 {
     public partial class Form1 : Form
     {
-        private ITemplateForTheme cycles;
+        // private ITemplateForTheme cycles;
         private List<Button> buttons = new List<Button>();
         private List<ITemplateForTheme> themes = new List<ITemplateForTheme>();
-        public Form1()
+        public Form1(List<ITemplateForTheme> themes)
         {
             InitializeComponent();
-            cycles = new ProgramCycles(Controls.Add, Controls.Remove);
-            themes.Add(new ProgramCycles(Controls.Add, Controls.Remove));
+            // cycles = new ProgramCycles(Controls.Add, Controls.Remove);
+            // themes.Add(new ProgramCycles(Controls.Add, Controls.Remove));
+            this.themes = themes;
             SizeChanged += (sender, args) => { Invalidate(); UpdateAfterSizeChanged(args, ClientSize);};
             Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
             AddButtons();
@@ -39,19 +40,27 @@ namespace TrainingProgram
 
         private void AddButtons()
         {
-            buttons.Add(Farm.CreateButton("Cycles",new Point(0, 0),
-                (o, args) =>
+            foreach (var theme in themes)
+            {
+                var button = new Button()
                 {
-                    foreach(var button in cycles.Click(ClientSize).Add)
-                        Controls.Add(button);
-                }, 
-                new Size((int)(ClientSize.Width / 10), 100)));
+                    Text = theme.GetName(), 
+                    Location = theme.Location(), 
+                    Size = new Size((int)(ClientSize.Width / 10), 100)
+                };
+                button.Click += (o, args) =>
+                {
+                    foreach (var b in theme.Click(ClientSize).Add)
+                        Controls.Add(b);
+                };
+                buttons.Add(button);
+            }
             buttons.Add(Farm.CreateButton(
                 "Other",
                 new Point(0, 200),
                 (o, args) =>
                 {
-                    foreach (var button in cycles.CloseTheme().Remove)
+                    foreach (var button in themes[themes.Count - 1].CloseTheme().Remove)
                         Controls.Remove(button);
                 },
                 new Size((int)(ClientSize.Width / 10), 100)));

@@ -21,6 +21,8 @@ namespace TrainingProgram
         {
             // throw new NotImplementedException();
         }
+
+        public string GetName() => "Do While";
     }
     
     public class CycleFor : ITemplateForSubTheme
@@ -39,6 +41,8 @@ namespace TrainingProgram
         {
             // throw new NotImplementedException();
         }
+
+        public string GetName() => "For";
     }
     
     public class CycleWhile : ITemplateForSubTheme
@@ -57,5 +61,7 @@ namespace TrainingProgram
         {
             // throw new NotImplementedException();
         }
+
+        public string GetName() => "While";
     }
 }

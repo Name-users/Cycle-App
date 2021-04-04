@@ -33,12 +33,12 @@ namespace TrainingProgram
         // private readonly Action<Control> hookRemove;
         private readonly List<ITemplateForSubTheme> themes;
         private List<Button> buttons = new List<Button>();
-        private readonly List<string> buttonNames = new List<string>() {"For", "While", "Do While"};
+        // private readonly List<string> buttonNames = new List<string>() {"For", "While", "Do While"};
         private bool ButtonExist => buttons.Count > 0;
 
-        public ProgramCycles(Action<Control> hookAdd, Action<Control> hookRemove)
+        public ProgramCycles(List<ITemplateForSubTheme> themes)
         {
-            themes = new List<ITemplateForSubTheme>() {new CycleFor(), new CycleWhile(), new CycleDoWhile()};
+            this.themes = themes;
         }
 
         public void Paint(PaintEventArgs args, Size size)
@@ -53,7 +53,7 @@ namespace TrainingProgram
             for (var i = 0; i < themes.Count; i++)
             {
                 var last = i - 1 < 0 ? 0 : buttons[i - 1].Bottom;
-                buttons.Add(Farm.CreateButton(buttonNames[i],new Point(newSize.Width, last), themes[i].Click, newSize));
+                buttons.Add(Farm.CreateButton(themes[i].GetName(),new Point(newSize.Width, last), themes[i].Click, newSize));
             }
             return new Updates<Button>(buttons.AsReadOnly(), remove.AsReadOnly());
         }
