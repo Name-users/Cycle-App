@@ -13,52 +13,47 @@ namespace TrainingProgram
     public partial class Form1 : Form
     {
         private ITemplateForTheme cycles;
-        // private readonly Button buttonCycles;
         private List<Button> buttons = new List<Button>();
         private List<ITemplateForTheme> themes = new List<ITemplateForTheme>();
         public Form1()
         {
             InitializeComponent();
             cycles = new ProgramCycles(Controls.Add, Controls.Remove);
-            SizeChanged += (sender, args) => { Invalidate(); cycles?.SizeChanged(args, ClientSize);};
+            themes.Add(new ProgramCycles(Controls.Add, Controls.Remove));
+            SizeChanged += (sender, args) => { Invalidate(); UpdateAfterSizeChanged(args, ClientSize);};
             Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
-            // Paint += (sender, args) => drowingForms(sender, args);
-
-            // buttonCycles = Farm.CreateButton(
-            //     "Cycles",
-            //     new Point(0, 0),
-            //     (o, args) =>
-            //     {
-            //         // cycles = new ProgramCycles(Controls, ClientSize);
-            //         cycles.Click(ClientSize);
-            //     },
-            //     new Size((int)(ClientSize.Width / 5), 100));
-            // Controls.Add(buttonCycles);
-            //
-            // Controls.Add(Farm.CreateButton(
-            //     "Other",
-            //     new Point(0, buttonCycles.Bottom),
-            //     (o, args) => cycles?.CloseTheme(),
-            //     new Size((int)(ClientSize.Width / 5), 100)));
             AddButtons();
-            
         }
 
-        // private void UpdateAfterSizeChanged(EventArgs args, Size clientSize)
-        // {
-        //     foreach (var theme in themes)
-        //     {
-        //         var changes = theme.SizeChanged(args, clientSize);
-        //     }
-        // }
+        private void UpdateAfterSizeChanged(EventArgs args, Size clientSize)
+        {
+            foreach (var theme in themes)
+            {
+                var changes = theme.SizeChanged(args, clientSize);
+                foreach (var button in changes.Add)
+                    Controls.Add(button);
+                foreach (var button in changes.Remove)
+                    Controls.Remove(button);
+            }
+        }
 
         private void AddButtons()
         {
-            buttons.Add(Farm.CreateButton("Cycles",new Point(0, 0),(o, args) => { cycles.Click(ClientSize); }, new Size((int)(ClientSize.Width / 10), 100)));
+            buttons.Add(Farm.CreateButton("Cycles",new Point(0, 0),
+                (o, args) =>
+                {
+                    foreach(var button in cycles.Click(ClientSize).Add)
+                        Controls.Add(button);
+                }, 
+                new Size((int)(ClientSize.Width / 10), 100)));
             buttons.Add(Farm.CreateButton(
                 "Other",
                 new Point(0, 200),
-                (o, args) => cycles?.CloseTheme(),
+                (o, args) =>
+                {
+                    foreach (var button in cycles.CloseTheme().Remove)
+                        Controls.Remove(button);
+                },
                 new Size((int)(ClientSize.Width / 10), 100)));
             foreach (var button in buttons)
                 Controls.Add(button);
