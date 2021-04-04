@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TrainingProgram
 {
-    public interface ITemplateForTheme
+    public interface ITemplateTheme
     {
         void Paint(PaintEventArgs args, Size size);
         Updates<Button> SizeChanged(EventArgs args, Size size);

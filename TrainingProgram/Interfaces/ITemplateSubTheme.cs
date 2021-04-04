@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace TrainingProgram
 {
-    public interface ITemplateForSubTheme
+    public interface ITemplateSubTheme
     {
         void Paint(PaintEventArgs args, Size size);
         void SizeChanged(EventArgs args, Size size);

@@ -16,12 +16,12 @@ namespace TrainingProgram
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(
-                new List<ITemplateForTheme>()
+            Application.Run(new UserInterface(
+                new List<ITemplateTheme>()
                 {
-                    new ProgramCycles(new List<ITemplateForSubTheme>()
+                    new Cycles(new List<ITemplateSubTheme>()
                     {
-                        new CycleFor(), new CycleWhile(), new CycleDoWhile()
+                        new Cycle(), new CycleWhile(), new CycleDoWhile()
                     })
                 }
                 ));

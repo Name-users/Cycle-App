@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace TrainingProgram
 {
-    public partial class Form1 : Form
+    public partial class UserInterface : Form
     {
         // private ITemplateForTheme cycles;
         private List<Button> buttons = new List<Button>();
-        private List<ITemplateForTheme> themes = new List<ITemplateForTheme>();
-        public Form1(List<ITemplateForTheme> themes)
+        private List<ITemplateTheme> themes = new List<ITemplateTheme>();
+        public UserInterface(List<ITemplateTheme> themes)
         {
             InitializeComponent();
             // cycles = new ProgramCycles(Controls.Add, Controls.Remove);

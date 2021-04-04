@@ -27,16 +27,14 @@ namespace TrainingProgram
         }
     }
 
-    public class ProgramCycles : ITemplateForTheme
+    public abstract class TemplateTheme : ITemplateTheme
     {
-        // private readonly Action<Control> hookAdd;
-        // private readonly Action<Control> hookRemove;
-        private readonly List<ITemplateForSubTheme> themes;
+
+        private readonly List<ITemplateSubTheme> themes;
         private List<Button> buttons = new List<Button>();
-        // private readonly List<string> buttonNames = new List<string>() {"For", "While", "Do While"};
         private bool ButtonExist => buttons.Count > 0;
 
-        public ProgramCycles(List<ITemplateForSubTheme> themes)
+        public TemplateTheme(List<ITemplateSubTheme> themes)
         {
             this.themes = themes;
         }
@@ -58,22 +56,11 @@ namespace TrainingProgram
             return new Updates<Button>(buttons.AsReadOnly(), remove.AsReadOnly());
         }
 
-        public String GetName() => "Cycles";
-        public Point Location() => new Point(0, 0);
-        
-        
+        public abstract String GetName();
+        // public abstract String GetName() => "Cycles";
 
-        public Button ThemeButton(Size size)
-        {
-             return new Button(){Text = GetName(), Location = Location(), Size = size};
-            // return Farm.CreateButton("Cycles",new Point(0, 0),
-            //     (o, args) =>
-            //     {
-            //         foreach(var button in cycles.Click(ClientSize).Add)
-            //             Controls.Add(button);
-            //     }, 
-            //     new Size((int)(ClientSize.Width / 10), 100)))
-        }
+        // public Point Location() => new Point(0, 0);
+        public abstract Point Location();
 
         public Updates<Button> SizeChanged(EventArgs args, Size clientSize)
         {
