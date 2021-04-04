@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,117 +17,61 @@ namespace TrainingProgram
 
     public class ProgramCycles : ITemplateForTheme
     {
-        private readonly Control.ControlCollection control;
-        private readonly CycleFor cycleFor = new CycleFor();
-        private readonly CycleWhile cycleWhile = new CycleWhile();
-        private readonly CycleDoWhile cycleDoWhile = new CycleDoWhile();
-        
-        private  Button buttonFor = new Button();
-        private  Button buttonWhile = new Button();
-        private  Button buttonDoWhile = new Button();
-        private bool buttonExist = false;
-    
-        // ~ProgramCycles() 
-        // {
-        //     control.Remove(buttonFor);
-        //     control.Remove(buttonWhile);
-        //     control.Remove(buttonDoWhile);
-        // }
+        private readonly Action<Control> hookAdd;
+        private readonly Action<Control> hookRemove;
+        private readonly List<ITemplateForSubTheme> themes;
+        private List<Button> buttons = new List<Button>();
+        private readonly List<string> buttonNames = new List<string>() {"For", "While", "Do While"};
+        private bool ButtonExist => buttons.Count > 0;
 
-        public ProgramCycles(Control.ControlCollection control, Size clientSize)
+        public ProgramCycles(Action<Control> hookAdd, Action<Control> hookRemove)
         {
-            this.control = control;
+            this.hookAdd = hookAdd;
+            this.hookRemove = hookRemove;
+            themes = new List<ITemplateForSubTheme>() {new CycleFor(), new CycleWhile(), new CycleDoWhile()};
         }
 
         public void Paint(PaintEventArgs args, Size size)
         {
             throw new NotImplementedException();
         }
-
-        // private void CreateButton(Size newSize)
-        // {
-        //     buttonFor = Farm.CreateButton(
-        //         "For", 
-        //         new Point(newSize.Width, 0), 
-        //         cycleFor.Click, 
-        //         newSize);
-        //     buttonWhile = Farm.CreateButton("While", new Point(newSize.Width, buttonFor.Bottom), cycleWhile.Click, newSize);
-        //     buttonDoWhile = Farm.CreateButton("Do While", new Point(newSize.Width, buttonWhile.Bottom), cycleDoWhile.Click, newSize);
-        //
-        // }
-        //
-        // private void CheckExistButton()
-        // {
-        //     if (buttonExist)
-        //     {
-        //         control.Remove(buttonFor);
-        //         control.Remove(buttonWhile);
-        //         control.Remove(buttonDoWhile);
-        //         buttonExist = false;
-        //     }
-        // }
-        //
-        // private void AddButton()
-        // {
-        //     if (!buttonExist)
-        //     {
-        //         control.Add(buttonFor);
-        //         control.Add(buttonWhile);
-        //         control.Add(buttonDoWhile);
-        //         buttonExist = true;
-        //     }
-        // }
         
-        private void AddButtons(Size newSize)
+        private void UpdateButtons(Size newSize)
         {
             RemoveButtons();
-            buttonFor = Farm.CreateButton("For",new Point(newSize.Width, 0),cycleFor.Click, newSize);
-            buttonWhile = Farm.CreateButton("While", new Point(newSize.Width, buttonFor.Bottom), cycleWhile.Click, newSize);
-            buttonDoWhile = Farm.CreateButton("Do While", new Point(newSize.Width, buttonWhile.Bottom), cycleDoWhile.Click, newSize);
-            control.Add(buttonFor);
-            control.Add(buttonWhile);
-            control.Add(buttonDoWhile);
-            buttonExist = true;
+            for (var i = 0; i < themes.Count; i++)
+            {
+                var last = i - 1 < 0 ? 0 : buttons[i - 1].Bottom;
+                buttons.Add(Farm.CreateButton(buttonNames[i],new Point(newSize.Width, last), themes[i].Click, newSize));
+            }
+            foreach (var button in buttons)
+                hookAdd(button);
         }
 
         private void RemoveButtons()
         {
-            if (buttonExist)
-            {
-                control.Remove(buttonFor);
-                control.Remove(buttonWhile);
-                control.Remove(buttonDoWhile);
-                buttonExist = false;
-            }
+            foreach (var button in buttons)
+                hookRemove(button);
+            buttons.Clear();
         }
-
         
-
         public void SizeChanged(EventArgs args, Size clientSize)
         {
-            if(!buttonExist)
+            if(!ButtonExist)
                 return;
             var newSize = new Size((int) (clientSize.Width / 5), (int) (clientSize.Height / 5));
-            // RemoveButtons();
-            AddButtons(newSize);
-            // AddButton();
-            // buttonFor.Size = newSize;
-            // buttonWhile.Size = newSize;
-            // buttonDoWhile.Size = newSize;
-            cycleFor.SizeChanged(args, clientSize);
-            cycleWhile.SizeChanged(args, clientSize);
-            cycleDoWhile.SizeChanged(args, clientSize);
+            UpdateButtons(newSize);
+            foreach (var theme in themes)
+                theme.SizeChanged(args, clientSize);
         }
 
-        public void Click(Control.ControlCollection control, Size clientSize)
+        public void Click(Size clientSize)
         {
             var newSize = new Size((int) (clientSize.Width / 5), (int) (clientSize.Height / 5));
-            // RemoveButtons();
-            AddButtons(newSize);
-            // AddButton();
+            UpdateButtons(newSize);
         }
         
-        public void Click()
+        public void CloseTheme()
         {
             RemoveButtons();
         }

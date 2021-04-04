@@ -1,5 +1,5 @@
 .idea
 bin
-odj
+obj
 App.config
 *.txt

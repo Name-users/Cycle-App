@@ -10,7 +10,7 @@ namespace TrainingProgram
         void SizeChanged(EventArgs args, Size size);
         // void SizeChanged();
         
-        void Click(Control.ControlCollection control, Size clientSize);
-        void Click();
+        void Click(Size clientSize);
+        void CloseTheme();
     }
 }
