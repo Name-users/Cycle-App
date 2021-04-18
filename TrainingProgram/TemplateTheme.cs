@@ -23,13 +23,11 @@ namespace TrainingProgram
         private readonly List<ITemplateSubTheme> themes;
         private ITemplateSubTheme currentSubTheme;
         private List<Button> buttons = new List<Button>();
-        // private readonly Size clientSize;
         private bool ButtonExist => buttons.Count > 0;
 
         public TemplateTheme(List<ITemplateSubTheme> themes)
         {
             this.themes = themes;
-            // this.clientSize = clientSize;
         }
 
         public IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status)
@@ -61,23 +59,11 @@ namespace TrainingProgram
         public abstract String GetName();
         public abstract Point Location();
 
-        // public Updates<Button> SizeChanged(EventArgs args, Size clientSize)
-        // {
-        //     if(!ButtonExist)
-        //         return new Updates<Button>(new List<Button>(), new List<Button>());
-        //     var newSize = new Size((int) (clientSize.Width / 5), (int) (clientSize.Height / 5));
-        //     foreach (var theme in themes)
-        //         theme.SizeChanged(args, clientSize);
-        //     return UpdateButtons(clientSize);
-        //     // return UpdateButtons(newSize);
-        // }
-
         public Updates<Button> Click(Size clientSize)
         {
             if(ButtonExist)
                 return new Updates<Button>(new List<Button>(), new List<Button>());
             var newSize = new Size((int) (clientSize.Width / 5), (int) (clientSize.Height / 5));
-            // return UpdateButtons(newSize);
             return UpdateButtons(clientSize);
         }
         

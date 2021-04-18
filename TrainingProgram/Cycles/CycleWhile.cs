@@ -8,11 +8,6 @@ namespace TrainingProgram
 {
     public class CycleWhile : ITemplateSubTheme
     {
-        public void Paint(PaintEventArgs args, Size size)
-        {
-            // throw new NotImplementedException();
-        }
-
         public IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status)
         {
             // throw new NotImplementedException();

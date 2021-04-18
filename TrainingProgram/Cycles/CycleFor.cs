@@ -21,8 +21,6 @@ namespace TrainingProgram
 
         public CycleFor()
         {
-            var dx = 50;
-            var dy = 50;
             InitializationShapes();
             AddLines();
             Shapes.Add(Cycle);

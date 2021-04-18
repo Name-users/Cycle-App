@@ -22,16 +22,7 @@ namespace TrainingProgram
         {
             InitializeComponent();
             this.themes = themes;
-            // KeyPreview = true;
-            // KeyDown += (sender, args) => MessageBox.Show("Down");
-            // Invalidate();
-            Paint += (sender, args) => Drowing(args.Graphics);
-            // SizeChanged += (sender, args) =>
-            // {
-            //     Invalidate(); 
-            //     UpdateAfterSizeChanged(args, new Size(ClientSize.Width / 10, ClientSize.Height / 10));
-            // };
-            // var a = this.MaximumSize;
+            Paint += (sender, args) => Drawing(args.Graphics);
             Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
             AddThemeButtons(new Size(Size.Width / 10, Size.Height / 10));
         }
@@ -47,45 +38,8 @@ namespace TrainingProgram
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        // private void UpdateAfterSizeChanged(EventArgs args, Size clientSize)
-        // {
-        //     foreach (var theme in themes)
-        //     {
-        //         var changes = theme.SizeChanged(args, clientSize);
-        //         foreach (var button in changes.Add)
-        //             Controls.Add(button);
-        //         foreach (var button in changes.Remove)
-        //             Controls.Remove(button);
-        //     }
-        // }
         
-        private void drowingForms(object sender, PaintEventArgs args)
-        {
-            // Graphics;
-            var graphics = args.Graphics;
-            graphics.Clear(Color.Aqua);
-            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            Pen pen = new Pen(Color.Red,3);
-            pen.CustomEndCap = new AdjustableArrowCap(6, 6);
-            graphics.DrawLine(pen, 0, 0, 200, 300);
-            // graphics.FillPolygon(Brushes.Black, new Point[]{new Point(0, 0), new Point(200, 300)});
-            Point[] pts =
-            {
-                new Point(0, ClientSize.Height / 2), 
-                new Point(ClientSize.Width / 2, 0), 
-                new Point(ClientSize.Width, ClientSize.Height / 2), 
-                new Point(ClientSize.Width / 2, ClientSize.Height)
-            };
-            graphics.FillPolygon(Brushes.White, pts);
-            graphics.DrawString(
-                "Some text here", 
-                new Font("Arial", (int)(ClientSize.Width * ClientSize.Height * 0.0001)), 
-                Brushes.Wheat, 
-                new Point((int)(pts[0].X + ClientSize.Width * 0.2), pts[0].Y)
-            );
-        }
-        
-        private void Drowing(Graphics graphics)
+        private void Drawing(Graphics graphics)
         {
             graphics.Clear(Color.Aqua);
             graphics.SmoothingMode = SmoothingMode.HighQuality;
@@ -139,8 +93,6 @@ namespace TrainingProgram
                         Controls.Add(b);
                     }
                     currentTheme = theme;
-                    // Invalidate();
-                    // MessageBox.Show($"{currentTheme.GetName()}");
                 };
                 buttonsThemes.Add(button);
             }
