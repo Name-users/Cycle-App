@@ -16,11 +16,14 @@ namespace TrainingProgram
         private List<Button> buttonsThemes = new List<Button>();
         private List<ITemplateTheme> themes = new List<ITemplateTheme>();
         private ITemplateTheme currentTheme;
+        private SubThemeStatus currentSubThemeStatus = SubThemeStatus.Stay;
 
         public UserInterface(List<ITemplateTheme> themes)
         {
             InitializeComponent();
             this.themes = themes;
+            // KeyPreview = true;
+            // KeyDown += (sender, args) => MessageBox.Show("Down");
             // Invalidate();
             Paint += (sender, args) => Drowing(args.Graphics);
             // SizeChanged += (sender, args) =>
@@ -32,7 +35,18 @@ namespace TrainingProgram
             Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
             AddThemeButtons(new Size(Size.Width / 10, Size.Height / 10));
         }
-
+        
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (!(currentTheme is null))
+            {
+                if (keyData == (Keys.Left))
+                    currentSubThemeStatus = SubThemeStatus.BackStep;
+                if (keyData == (Keys.Right))
+                    currentSubThemeStatus = SubThemeStatus.NextStep;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         // private void UpdateAfterSizeChanged(EventArgs args, Size clientSize)
         // {
         //     foreach (var theme in themes)
@@ -77,28 +91,28 @@ namespace TrainingProgram
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             if (currentTheme != null)
             {
-                var shapes = currentTheme.Paint();
+                var shapes = currentTheme.Paint(currentSubThemeStatus);
+                currentSubThemeStatus = SubThemeStatus.Stay;
                 if(shapes != null)
                 {
                     foreach (var shape in shapes)
                     {
                         if (shape is IClosedLine closedLine)
                             graphics.FillPolygon(closedLine.Color, closedLine.Points.ToArray());
-                        else
-                        {
+                        else if (shape is ILine line)
+                            graphics.DrawLine(line.Pen, line.Start.X, line.Start.Y, line.End.X, line.End.Y);
+                        else if (shape is IEllipse ellipse)
+                            graphics.FillEllipse(ellipse.Color, ellipse.Point.X, ellipse.Point.Y, ellipse.Size.Width, ellipse.Size.Height);
+                        if(!shape.Text.IsEmpty)
                             graphics.DrawString(
-                                "Some text here",
-                                new Font("Arial", (int) (ClientSize.Width * ClientSize.Height * 0.0001)),
-                                Brushes.Wheat,
-                                new Point((int) (100 + ClientSize.Width * 0.2), 100)
-                            );
-                        }
+                                    shape.Text.TextLine,
+                                    new Font("Arial", 20),
+                                    Brushes.Black,
+                                    shape.Text.Point
+                                );
                     }
                 }
             }
-
-            // MessageBox.Show("Окрасить кнопку в красный цвет?");
-            // Console.Error.NewLine = "Test";
         }
 
         private void AddThemeButtons(Size clientSize)

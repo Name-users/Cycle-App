@@ -13,7 +13,7 @@ namespace TrainingProgram
             // throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<IGeometricShape> Paint()
+        public IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status)
         {
             // throw new NotImplementedException();
             return null;

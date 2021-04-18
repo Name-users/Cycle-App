@@ -32,11 +32,11 @@ namespace TrainingProgram
             // this.clientSize = clientSize;
         }
 
-        public IReadOnlyCollection<IGeometricShape> Paint()
+        public IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status)
         {
             if (currentSubTheme is null)
                 return null;
-            return currentSubTheme.Paint();
+            return currentSubTheme.Paint(status);
         }
         
         private Updates<Button> UpdateButtons(Size newSize)
