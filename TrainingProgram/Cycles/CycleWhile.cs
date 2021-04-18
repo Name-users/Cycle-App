@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,7 +12,13 @@ namespace TrainingProgram
         {
             // throw new NotImplementedException();
         }
-    
+
+        public IReadOnlyCollection<IGeometricShape> Paint()
+        {
+            // throw new NotImplementedException();
+            return null;
+        }
+
         public void SizeChanged(EventArgs args, Size size)
         {
             // throw new NotImplementedException();

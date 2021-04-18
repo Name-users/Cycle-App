@@ -1,4 +1,7 @@
-﻿namespace TrainingProgram
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace TrainingProgram
 {
     partial class UserInterface
     {
@@ -31,7 +34,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new Size(1000, 1000);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; // запретить масшабировать
+            // this.MaximizeBox = false;
+            // this.MinimizeBox = false;
+            this.WindowState = FormWindowState.Maximized;
             this.Text = "Ulearn";
         }
 

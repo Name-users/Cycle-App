@@ -51,6 +51,7 @@
         <Compile Include="Cycles\Cycles.cs" />
         <Compile Include="Cycles\CycleWhile.cs" />
         <Compile Include="If else\IfElse.cs" />
+        <Compile Include="Interfaces\IGeometricShape.cs" />
         <Compile Include="UserInterface.cs">
             <SubType>Form</SubType>
         </Compile>
