@@ -13,23 +13,23 @@ namespace TrainingProgram
         private IClosedLine Result;
         private List<IGeometricShape> Shapes = new List<IGeometricShape>();
 
-        // public CycleFor()
-        // {
-        //     var oX = 100;
-        //     var oY = 100;
-        //     Cycle = new ClosedLine(
-        //         new[]
-        //         {
-        //             new Point(oX, oY + 5),
-        //             new Point(oX + 10, oY + 5),
-        //             new Point(oX + 5, oY),
-        //             new Point(oX + 5, oY + 10),
-        //         },
-        //         Color.White,
-        //         new Text() {Point = new Point(oX + 2, oY + 2), TextLine = "TestLine"}
-        //     );
-        //     Shapes.Add(Cycle);
-        // }
+        public CycleFor()
+        {
+            var oX = 300;
+            var oY = 300;
+            Cycle = new ClosedLine(
+                new[]
+                {
+                    new Point(oX, oY + 50),
+                    new Point(oX + 100, oY + 50),
+                    new Point(oX + 50, oY),
+                    new Point(oX + 50, oY + 100),
+                },
+                Brushes.White,
+                new Text() {Point = new Point(oX + 2, oY + 2), TextLine = "TestLine"}
+            );
+            Shapes.Add(Cycle);
+        }
 
         public IReadOnlyCollection<IGeometricShape> Paint()
         {

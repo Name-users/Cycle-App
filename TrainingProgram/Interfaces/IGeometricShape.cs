@@ -11,7 +11,7 @@ namespace TrainingProgram
     public interface IClosedLine : IGeometricShape
     {
         IReadOnlyCollection<Point> Points { get; }
-        Color Color { get; }
+        Brush Color { get; }
     }
     
     public interface ILine : IGeometricShape
@@ -31,9 +31,9 @@ namespace TrainingProgram
     {
         public Text Text { get; private set; }
         public IReadOnlyCollection<Point> Points { get; private set;}
-        public Color Color { get; private set;}
+        public Brush Color { get; private set;}
 
-        public ClosedLine(IReadOnlyCollection<Point> points, Color color, Text text)
+        public ClosedLine(IReadOnlyCollection<Point> points, Brush color, Text text)
         {
             Points = points;
             Color = color;

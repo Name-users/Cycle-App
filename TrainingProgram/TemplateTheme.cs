@@ -34,7 +34,9 @@ namespace TrainingProgram
 
         public IReadOnlyCollection<IGeometricShape> Paint()
         {
-            throw new NotImplementedException();
+            if (currentSubTheme is null)
+                return null;
+            return currentSubTheme.Paint();
         }
         
         private Updates<Button> UpdateButtons(Size newSize)

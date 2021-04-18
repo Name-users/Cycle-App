@@ -16,12 +16,13 @@ namespace TrainingProgram
         private List<Button> buttonsThemes = new List<Button>();
         private List<ITemplateTheme> themes = new List<ITemplateTheme>();
         private ITemplateTheme currentTheme;
+
         public UserInterface(List<ITemplateTheme> themes)
         {
             InitializeComponent();
             this.themes = themes;
-            Invalidate();
-            Paint += (sender, args) => drowingForms(sender, args);
+            // Invalidate();
+            Paint += (sender, args) => Drowing(args.Graphics);
             // SizeChanged += (sender, args) =>
             // {
             //     Invalidate(); 
@@ -46,7 +47,7 @@ namespace TrainingProgram
         
         private void drowingForms(object sender, PaintEventArgs args)
         {
-            
+            // Graphics;
             var graphics = args.Graphics;
             graphics.Clear(Color.Aqua);
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -70,30 +71,34 @@ namespace TrainingProgram
             );
         }
         
-        private void Drowing(object sender, PaintEventArgs args)
+        private void Drowing(Graphics graphics)
         {
-            
-            var graphics = args.Graphics;
             graphics.Clear(Color.Aqua);
-            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            Pen pen = new Pen(Color.Red,3);
-            pen.CustomEndCap = new AdjustableArrowCap(6, 6);
-            graphics.DrawLine(pen, 0, 0, 200, 300);
-            // graphics.FillPolygon(Brushes.Black, new Point[]{new Point(0, 0), new Point(200, 300)});
-            Point[] pts =
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            if (currentTheme != null)
             {
-                new Point(0, ClientSize.Height / 2), 
-                new Point(ClientSize.Width / 2, 0), 
-                new Point(ClientSize.Width, ClientSize.Height / 2), 
-                new Point(ClientSize.Width / 2, ClientSize.Height)
-            };
-            graphics.FillPolygon(Brushes.White, pts);
-            graphics.DrawString(
-                "Some text here", 
-                new Font("Arial", (int)(ClientSize.Width * ClientSize.Height * 0.0001)), 
-                Brushes.Wheat, 
-                new Point((int)(pts[0].X + ClientSize.Width * 0.2), pts[0].Y)
-            );
+                var shapes = currentTheme.Paint();
+                if(shapes != null)
+                {
+                    foreach (var shape in shapes)
+                    {
+                        if (shape is IClosedLine closedLine)
+                            graphics.FillPolygon(closedLine.Color, closedLine.Points.ToArray());
+                        else
+                        {
+                            graphics.DrawString(
+                                "Some text here",
+                                new Font("Arial", (int) (ClientSize.Width * ClientSize.Height * 0.0001)),
+                                Brushes.Wheat,
+                                new Point((int) (100 + ClientSize.Width * 0.2), 100)
+                            );
+                        }
+                    }
+                }
+            }
+
+            // MessageBox.Show("Окрасить кнопку в красный цвет?");
+            // Console.Error.NewLine = "Test";
         }
 
         private void AddThemeButtons(Size clientSize)
@@ -115,8 +120,13 @@ namespace TrainingProgram
                         foreach (var b in currentTheme.CloseTheme().Remove)
                             Controls.Remove(b);
                     foreach (var b in theme.Click(clientSize).Add)
+                    {
+                        b.Click += (sender, eventArgs) => Invalidate();
                         Controls.Add(b);
+                    }
                     currentTheme = theme;
+                    // Invalidate();
+                    // MessageBox.Show($"{currentTheme.GetName()}");
                 };
                 buttonsThemes.Add(button);
             }
