@@ -23,7 +23,12 @@ namespace TrainingProgram
         {
             // throw new NotImplementedException();
         }
-    
+
+        public void Close()
+        {
+            // throw new NotImplementedException();
+        }
+
         public string GetName() => "While";
     }
 }

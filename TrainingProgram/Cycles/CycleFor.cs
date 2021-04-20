@@ -195,15 +195,25 @@ namespace TrainingProgram
         private void UpdateShapes()
         {
             if (Index == 0)
-                BeginEllipse.Color = Brushes.Green;
-            if (Index == 11)
-                EndEllipse.Color = Brushes.Green;
+                ChangeColor(Brushes.Green, Brushes.White, Brushes.White, Brushes.White,Brushes.White);
+            else if (Index == 10)
+                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.Green,Brushes.White);
+            else if (Index == 11)
+                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.White,Brushes.Green);
             else 
                 if(Index % 2 == 1)
-                    Cycle.Color = Brushes.Green;
+                    ChangeColor(Brushes.White, Brushes.Green, Brushes.White, Brushes.White,Brushes.White);
                 else
-                    CycleBody.Color = Brushes.Green;
-            
+                    ChangeColor(Brushes.White, Brushes.White, Brushes.Green, Brushes.White,Brushes.White);
+        }
+
+        private void ChangeColor(Brush beginEllipse, Brush cycle, Brush cycleBody, Brush result, Brush endEllipse)
+        {
+            BeginEllipse.Color = beginEllipse;
+            Cycle.Color = cycle;
+            CycleBody.Color = cycleBody;
+            Result.Color = result;
+            EndEllipse.Color = endEllipse;
         }
 
         public void SizeChanged(EventArgs args, Size size)
@@ -215,7 +225,12 @@ namespace TrainingProgram
         {
             // throw new NotImplementedException();
         }
-    
+
+        public void Close()
+        {
+            Index = 0;
+        }
+
         public string GetName() => "For";
     }
 }

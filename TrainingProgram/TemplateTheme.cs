@@ -48,6 +48,8 @@ namespace TrainingProgram
                 var button = new Button(){Text = currentTheme.GetName(), Location = new Point(newSize.Width, last), Size = newSize};
                 button.Click += (sender, args) =>
                 {
+                    if(currentSubTheme != null)
+                        currentSubTheme.Close();
                     currentSubTheme = currentTheme;
                     currentTheme.Click(sender, args);
                 };

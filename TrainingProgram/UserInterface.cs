@@ -36,6 +36,7 @@ namespace TrainingProgram
                 if (keyData == (Keys.Right))
                     currentSubThemeStatus = SubThemeStatus.NextStep;
             }
+            Invalidate();
             return base.ProcessCmdKey(ref msg, keyData);
         }
         
