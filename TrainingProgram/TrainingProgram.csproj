@@ -50,6 +50,7 @@
         <Compile Include="Cycles\CycleFor.cs" />
         <Compile Include="Cycles\Cycles.cs" />
         <Compile Include="Cycles\CycleWhile.cs" />
+        <Compile Include="Extensions.cs" />
         <Compile Include="If else\IfElse.cs" />
         <Compile Include="Interfaces\IGeometricShape.cs" />
         <Compile Include="SubThemeStatus.cs" />
@@ -87,6 +88,7 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Cycles\Definitions.txt" />
       <Content Include="NewFile1.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

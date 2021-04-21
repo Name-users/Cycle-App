@@ -12,7 +12,7 @@ namespace TrainingProgram
         // Updates<Button> SizeChanged(EventArgs args, Size size);
         IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status);
         String GetName();
-        Point Location();
+        // Point Location();
         // //void SizeChanged();
         
         Updates<Button> Click(Size clientSize);

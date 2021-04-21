@@ -21,6 +21,12 @@ namespace TrainingProgram
         Brush Color { get; set; }
     }
     
+    public interface IRectangleText : IGeometricShape
+    {
+        Size Size { get; }
+        Brush Color { get; set; }
+    }
+    
     public interface ILine : IGeometricShape
     {
         Point Start { get; }
@@ -59,6 +65,20 @@ namespace TrainingProgram
         public Ellipse(Point point, Size size, Brush color, Text text)
         {
             Point = point;
+            Color = color;
+            Text = text;
+            Size = size;
+        }
+    }
+    
+    public class RectangleText : IRectangleText
+    {
+        public Text Text { get;  set; }
+        public Size Size { get; }
+        public Brush Color { get; set; }
+
+        public RectangleText(Size size, Brush color, Text text)
+        {
             Color = color;
             Text = text;
             Size = size;

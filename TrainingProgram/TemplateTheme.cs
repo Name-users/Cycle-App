@@ -51,7 +51,7 @@ namespace TrainingProgram
                     if(currentSubTheme != null)
                         currentSubTheme.Close();
                     currentSubTheme = currentTheme;
-                    currentTheme.Click(sender, args);
+                    // currentTheme.Click(sender, args);
                 };
                 buttons.Add(button);
             }
@@ -59,18 +59,19 @@ namespace TrainingProgram
         }
 
         public abstract String GetName();
-        public abstract Point Location();
+        // public abstract Point Location();
 
         public Updates<Button> Click(Size clientSize)
         {
             if(ButtonExist)
                 return new Updates<Button>(new List<Button>(), new List<Button>());
-            var newSize = new Size((int) (clientSize.Width / 5), (int) (clientSize.Height / 5));
+            // var newSize = new Size((int) (clientSize.Width / 5), (int) (clientSize.Height / 5));
             return UpdateButtons(clientSize);
         }
         
         public Updates<Button> CloseTheme()
         {
+            currentSubTheme?.Close();
             var remove = buttons;
             buttons = new List<Button>();
             return new Updates<Button>(new List<Button>(), remove);

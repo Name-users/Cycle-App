@@ -59,12 +59,21 @@ namespace TrainingProgram
                         else if (shape is IEllipse ellipse)
                             graphics.FillEllipse(ellipse.Color, ellipse.Point.X, ellipse.Point.Y, ellipse.Size.Width, ellipse.Size.Height);
                         if(!shape.Text.IsEmpty)
-                            graphics.DrawString(
-                                    shape.Text.TextLine,
+                            if (shape is IRectangleText rectangleText)
+                                graphics.DrawString(
+                                    rectangleText.Text.TextLine,
                                     new Font("Arial", 20),
-                                    Brushes.Black,
-                                    shape.Text.Point
+                                    rectangleText.Color,
+                                    new Rectangle(rectangleText.Text.Point.X, rectangleText.Text.Point.Y, rectangleText.Size.Width, rectangleText.Size.Height)
+                                    // new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center, FormatFlags = StringFormatFlags.FitBlackBox }
                                 );
+                            else
+                                graphics.DrawString(
+                                        shape.Text.TextLine,
+                                        new Font("Arial", 20),
+                                        Brushes.Black,
+                                        shape.Text.Point
+                                    );
                     }
                 }
             }
@@ -94,6 +103,7 @@ namespace TrainingProgram
                         Controls.Add(b);
                     }
                     currentTheme = theme;
+                    Invalidate();
                 };
                 buttonsThemes.Add(button);
             }

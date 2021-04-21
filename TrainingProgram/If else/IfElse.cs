@@ -11,6 +11,6 @@ namespace TrainingProgram.If_else
 
         public override string GetName() => "If / Else";
 
-        public override Point Location() => new Point(0, 100);
+        // public override Point Location() => new Point(0, 100);
     }
 }
