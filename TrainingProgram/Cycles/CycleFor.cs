@@ -41,6 +41,7 @@ namespace TrainingProgram
             CycleIndex = StartCycleIndex - 1;
             Index = CycleIndex;
             Sum = 0;
+            EndProgramm = false;
         }
 
         private string UpdateTextCode()
@@ -221,31 +222,52 @@ namespace TrainingProgram
         {
             if(Shapes.Count == 0)
                 AddShapes();
-            if (status == SubThemeStatus.NextStep && CycleIndex <= EndCycleIndex && !EndProgramm)
+            if (status == SubThemeStatus.Stay && Index == 0)
+            {
+                var currentState = GoNext(status);
+                UpdateShapes(currentState.Colors);
+                stack.Push(currentState);
+            }
+            else if (status == SubThemeStatus.NextStep && CycleIndex <= EndCycleIndex && !EndProgramm)
+            {
                 Index++;
-                // CycleIndex += CycleIndex < EndCycleIndex + 1 ? 1 : 0;
+                var currentState = GoNext(status);
+                UpdateShapes(currentState.Colors);
+                stack.Push(currentState);
+            }
             else if (status == SubThemeStatus.BackStep && Index > StartCycleIndex)
-                Index--;
-                // CycleIndex -= CycleIndex > StartCycleIndex - 1 ? 1 : 0;
-            UpdateShapes(status);
+            {
+                var currentState = stack.Pop();
+                EndProgramm = currentState.StateOfCode;
+                Index = currentState.Index;
+                CycleIndex = currentState.CycleIndex;
+                Sum = currentState.Sum;
+                UpdateShapes(currentState.Colors);
+                // Index--;
+            }
+            // if(status != SubThemeStatus.Stay)
+            //     GoNext(status);
             return Shapes.AsReadOnly();
         }
 
         private bool EndProgramm;
-        private void UpdateShapes(SubThemeStatus status)
+        private StateElements GoNext(SubThemeStatus status)
         {
+            Brush[] colors = null;
             if (Index == StartCycleIndex - 1)
-                ChangeColor(Brushes.Green, Brushes.White, Brushes.White, Brushes.White,Brushes.White);
-            else if(status == SubThemeStatus.Stay) return;
+            {
+                colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White};
+                
+            }            // else if(status == SubThemeStatus.Stay) return;
             else if (CycleIndex == EndCycleIndex && Index % 2 == 0)
             {
                 EndProgramm = false;
-                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White);
+                colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White};
             }
             else if (CycleIndex == EndCycleIndex && Index % 2 == 1)
             {
                 EndProgramm = true;
-                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green);
+                colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green};
             }
             else
             {
@@ -253,16 +275,19 @@ namespace TrainingProgram
                 {
                     if (status == SubThemeStatus.NextStep) CycleIndex++;
                     else if (status == SubThemeStatus.BackStep) CycleIndex--;
-                    ChangeColor(Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White);
+                    colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White};
                 }
                 else
                 {
                     if (status == SubThemeStatus.NextStep) Sum += CycleIndex;
                     else if (status == SubThemeStatus.BackStep) Sum -= CycleIndex;
-                    ChangeColor(Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White);
+                    colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White};
                 }
             }
-            RectangleTextCode.Text.TextLine = UpdateTextCode();
+            
+            // UpdateShapes(colors);
+            return new StateElements()
+                {StateOfCode = EndProgramm, Colors = colors, Index = Index, CycleIndex = CycleIndex, Sum = Sum};
         }
         
         // private void UpdateShapes(SubThemeStatus status)
@@ -298,18 +323,21 @@ namespace TrainingProgram
         //     RectangleTextCode.Text.TextLine = UpdateTextCode();
         // }
 
-        private void ChangeColor(Brush beginEllipse, Brush cycle, Brush cycleBody, Brush result, Brush endEllipse)
+        // private void ChangeColor(Brush beginEllipse, Brush cycle, Brush cycleBody, Brush result, Brush endEllipse)
+        private void UpdateShapes(Brush[] colors)
         {
-            BeginEllipse.Color = beginEllipse;
-            Cycle.Color = cycle;
-            CycleBody.Color = cycleBody;
-            Result.Color = result;
-            EndEllipse.Color = endEllipse;
+            RectangleTextCode.Text.TextLine = UpdateTextCode();
+            BeginEllipse.Color = colors[0];
+            Cycle.Color = colors[1];
+            CycleBody.Color = colors[2];
+            Result.Color = colors[3];
+            EndEllipse.Color = colors[4];
         }
 
         public void Close()
         {
             Shapes.Clear();
+            stack.Clear();
             InitializationFields();
         }
 

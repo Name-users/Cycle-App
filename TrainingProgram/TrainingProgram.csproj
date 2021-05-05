@@ -49,6 +49,7 @@
         <Compile Include="Cycles\CycleDoWhile.cs" />
         <Compile Include="Cycles\CycleFor.cs" />
         <Compile Include="Cycles\Cycles.cs" />
+        <Compile Include="Cycles\CycleTemplate.cs" />
         <Compile Include="Cycles\CycleWhile.cs" />
         <Compile Include="Cycles\StateElements.cs" />
         <Compile Include="Extensions.cs" />

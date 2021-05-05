@@ -8,5 +8,6 @@ namespace TrainingProgram
         public bool StateOfCode;
         public int Index;
         public int CycleIndex;
+        public int Sum;
     }
 }
