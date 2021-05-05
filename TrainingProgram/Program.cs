@@ -22,7 +22,7 @@ namespace TrainingProgram
                 {
                     new Cycles(new List<ITemplateSubTheme>()
                     {
-                        new CycleFor(), new CycleWhile(), new CycleDoWhile()
+                        new CycleFor(), new CycleWhile(1, 10), new CycleDoWhile()
                     }),
                     new IfElse(new List<ITemplateSubTheme>())
                 }

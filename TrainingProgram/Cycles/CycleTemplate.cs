@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -61,6 +62,14 @@ namespace TrainingProgram
                 fstream.Read(array, 0, array.Length);
                 return System.Text.Encoding.Default.GetString(array);
             }
+        }
+
+        public List<Line> СonnectLines(Pen pen, Point[] points)
+        {
+            return Enumerable
+                .Range(0, points.Length - 1)
+                .Select(i => new Line(points[i], points[i + 1], pen, new Text()))
+                .ToList();
         }
 
         protected abstract StateElements GoNext(SubThemeStatus status);

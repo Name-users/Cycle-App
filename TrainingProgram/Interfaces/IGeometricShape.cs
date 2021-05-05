@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace TrainingProgram
 {
@@ -12,6 +13,10 @@ namespace TrainingProgram
     {
         IReadOnlyCollection<Point> Points { get; }
         Brush Color { get; set; }
+        Point GetRight();
+        Point GetLeft();
+        Point GetUp();
+        Point GetDown();
     }
     
     public interface IEllipse : IGeometricShape
@@ -52,6 +57,38 @@ namespace TrainingProgram
             Points = points;
             Color = color;
             Text = text;
+        }
+
+        public Point GetRight()
+        {
+            var points = Points.ToList();
+            var max = points.Max(s => s.X);
+            var result = points.Where(p => p.X == max).ToArray();
+            return new Point(result[0].X ,result.Sum(p => p.Y) / result.Length);
+        }
+        
+        public Point GetLeft()
+        {
+            var points = Points.ToList();
+            var min = points.Min(s => s.X);
+            var result = points.Where(p => p.X == min).ToArray();
+            return new Point(result[0].X ,result.Sum(p => p.Y) / result.Length);
+        }
+        
+        public Point GetUp()
+        {
+            var points = Points.ToList();
+            var min = points.Min(s => s.Y);
+            var result = points.Where(p => p.Y == min).ToArray();
+            return new Point(result.Sum(p => p.X) / result.Length ,result[0].Y);
+        }
+        
+        public Point GetDown()
+        {
+            var points = Points.ToList();
+            var max = points.Max(s => s.Y);
+            var result = points.Where(p => p.Y == max).ToArray();
+            return new Point(result.Sum(p => p.X) / result.Length ,result[0].Y);
         }
     }
     

@@ -207,50 +207,6 @@ namespace TrainingProgram
                 )
             );
         }
-
-        // private void AddShapes()
-        // {
-        //     Shapes = this.GetType()
-        //         .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-        //         .Where(f => f.GetValue(this) is IGeometricShape)
-        //         .Select(f => f.GetValue(this))
-        //         .Cast<IGeometricShape>()
-        //         .ToList();
-        //     AddLines();
-        // }
-
-        // public IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status)
-        // {
-        //     if(Shapes.Count == 0)
-        //         AddShapes();
-        //     if (status == SubThemeStatus.Stay && Index == 0)
-        //     {
-        //         var currentState = GoNext(status);
-        //         UpdateShapes(currentState.Colors);
-        //         stack.Push(currentState);
-        //     }
-        //     else if (status == SubThemeStatus.NextStep && CycleIndex <= EndCycleIndex && !EndProgramm)
-        //     {
-        //         Index++;
-        //         var currentState = GoNext(status);
-        //         UpdateShapes(currentState.Colors);
-        //         stack.Push(currentState);
-        //     }
-        //     else if (status == SubThemeStatus.BackStep && Index > StartCycleIndex)
-        //     {
-        //         var currentState = stack.Pop();
-        //         EndProgramm = currentState.StateOfCode;
-        //         Index = currentState.Index;
-        //         CycleIndex = currentState.CycleIndex;
-        //         Sum = currentState.Sum;
-        //         UpdateShapes(currentState.Colors);
-        //         // Index--;
-        //     }
-        //     // if(status != SubThemeStatus.Stay)
-        //     //     GoNext(status);
-        //     return Shapes.AsReadOnly();
-        // }
-
         
         protected override StateElements GoNext(SubThemeStatus status)
         {
@@ -298,13 +254,6 @@ namespace TrainingProgram
             Result.Color = colors[3];
             EndEllipse.Color = colors[4];
         }
-
-        // public void Close()
-        // {
-        //     Shapes.Clear();
-        //     stack.Clear();
-        //     InitializationFields();
-        // }
 
         public override string GetName() => "For";
     }
