@@ -90,7 +90,7 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Cycles\Definitions.txt" />
+      <Content Include="Cycles\For.txt" />
       <Content Include="NewFile1.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
