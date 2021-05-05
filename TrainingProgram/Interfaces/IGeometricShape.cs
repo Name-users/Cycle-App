@@ -34,7 +34,7 @@ namespace TrainingProgram
         Pen Pen { get; }
     }
 
-    public struct Text
+    public class Text
     {
         public Point Point;
         public string TextLine;

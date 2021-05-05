@@ -19,25 +19,33 @@ namespace TrainingProgram
         private IEllipse EndEllipse;
         private readonly int StartCycleIndex;
         private readonly int EndCycleIndex;
+        private readonly Stack<StateElements> stack;
         private int CycleIndex;
+        private int Index;
+        private int Sum;
         private List<IGeometricShape> Shapes = new List<IGeometricShape>();
         private Point LeftBorder = new Point(800, 100);
 
         public CycleFor()
         {
-            InitializationShapes();
             
-            // AddShapes();
-            
-            // Shapes.Add(Cycle);
-            // Shapes.Add(CycleBody);
-            // Shapes.Add(Result);
-            // Shapes.Add(BeginEllipse);
-            // Shapes.Add(EndEllipse);
             StartCycleIndex = 1;
             EndCycleIndex = 10;
+            stack = new Stack<StateElements>();
+            InitializationFields();
+            InitializationShapes();
+        }
+
+        private void InitializationFields()
+        {
             CycleIndex = StartCycleIndex - 1;
-            // CycleIndex = StartStatus - 1;
+            Index = CycleIndex;
+            Sum = 0;
+        }
+
+        private string UpdateTextCode()
+        {
+            return $"var\n     i, sum: integer;\nbegin\n    for i:=1 to 10 do\n        sum += i;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex} \n{Index}";
         }
 
         private void InitializationShapes()
@@ -53,7 +61,7 @@ namespace TrainingProgram
                 new Size(400, 400),
                 Brushes.Red,
                 new Text() {Point = new Point(LeftBorder.X + 350, LeftBorder.Y + 50), 
-                    TextLine = "var\n     i, sum: integer;\nbegin\n    for i:=1 to 10 do\n        sum += i;\n    write(sum);\nend."}
+                    TextLine = UpdateTextCode()}
                 );
             
             Cycle = new ClosedLine(
@@ -213,58 +221,82 @@ namespace TrainingProgram
         {
             if(Shapes.Count == 0)
                 AddShapes();
-            if (status == SubThemeStatus.NextStep)
-                CycleIndex += CycleIndex < EndCycleIndex + 1 ? 1 : 0;
-            else if (status == SubThemeStatus.BackStep)
-                CycleIndex -= CycleIndex > StartCycleIndex - 1 ? 1 : 0;
-            UpdateShapes();
+            if (status == SubThemeStatus.NextStep && CycleIndex <= EndCycleIndex && !EndProgramm)
+                Index++;
+                // CycleIndex += CycleIndex < EndCycleIndex + 1 ? 1 : 0;
+            else if (status == SubThemeStatus.BackStep && Index > StartCycleIndex)
+                Index--;
+                // CycleIndex -= CycleIndex > StartCycleIndex - 1 ? 1 : 0;
+            UpdateShapes(status);
             return Shapes.AsReadOnly();
-            
-            // if (status == SubThemeStatus.NextStep)
-            //     if (CycleIndex < EndCycleIndex + 1)
-            //     {
-            //         if (flag)
-            //             CycleIndex++;
-            //         CurrentStatus++;
-            //         flag = !flag;
-            //     }
-            // if (status == SubThemeStatus.BackStep)
-            //     if (CycleIndex > StartCycleIndex - 1)
-            //     {
-            //         if (flag)
-            //             CycleIndex--;
-            //         CurrentStatus--;
-            //         flag = !flag;
-            //     }
-            // UpdateShapes();
-            // return Shapes.AsReadOnly();
-            
-            // if (status == SubThemeStatus.NextStep && CycleIndex < EndCycleIndex + 1)
-            // {
-            //     if(flag)
-            //         CycleIndex++;
-            //     flag = !flag;
-            // }
-            // else if (status == SubThemeStatus.BackStep)
-            //     CycleIndex -= CycleIndex > StartCycleIndex - 1 ? 1 : 0;
-            // UpdateShapes();
-            // return Shapes.AsReadOnly();
         }
 
-        private void UpdateShapes()
+        private bool EndProgramm;
+        private void UpdateShapes(SubThemeStatus status)
         {
-            if (CycleIndex == StartCycleIndex - 1)
+            if (Index == StartCycleIndex - 1)
                 ChangeColor(Brushes.Green, Brushes.White, Brushes.White, Brushes.White,Brushes.White);
-            else if (CycleIndex == EndCycleIndex)
-                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.Green,Brushes.White);
-            else if (CycleIndex == EndCycleIndex + 1)
-                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.White,Brushes.Green);
-            else 
-                if(CycleIndex % 2 == 1)
-                    ChangeColor(Brushes.White, Brushes.Green, Brushes.White, Brushes.White,Brushes.White);
+            else if(status == SubThemeStatus.Stay) return;
+            else if (CycleIndex == EndCycleIndex && Index % 2 == 0)
+            {
+                EndProgramm = false;
+                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White);
+            }
+            else if (CycleIndex == EndCycleIndex && Index % 2 == 1)
+            {
+                EndProgramm = true;
+                ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green);
+            }
+            else
+            {
+                if (Index % 2 == 1)
+                {
+                    if (status == SubThemeStatus.NextStep) CycleIndex++;
+                    else if (status == SubThemeStatus.BackStep) CycleIndex--;
+                    ChangeColor(Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White);
+                }
                 else
-                    ChangeColor(Brushes.White, Brushes.White, Brushes.Green, Brushes.White,Brushes.White);
+                {
+                    if (status == SubThemeStatus.NextStep) Sum += CycleIndex;
+                    else if (status == SubThemeStatus.BackStep) Sum -= CycleIndex;
+                    ChangeColor(Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White);
+                }
+            }
+            RectangleTextCode.Text.TextLine = UpdateTextCode();
         }
+        
+        // private void UpdateShapes(SubThemeStatus status)
+        // {
+        //     if (Index == StartCycleIndex - 1)
+        //         ChangeColor(Brushes.Green, Brushes.White, Brushes.White, Brushes.White,Brushes.White);
+        //     // else if(status == SubThemeStatus.Stay) return;
+        //     else if (CycleIndex == EndCycleIndex && Index % 2 == 0)
+        //     {
+        //         EndProgramm = false;
+        //         ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White);
+        //     }
+        //     else if (CycleIndex == EndCycleIndex && Index % 2 == 1)
+        //     {
+        //         EndProgramm = true;
+        //         ChangeColor(Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green);
+        //     }
+        //     else
+        //     {
+        //         if (Index % 2 == 1)
+        //         {
+        //             if (status == SubThemeStatus.NextStep) CycleIndex++;
+        //             else if (status == SubThemeStatus.BackStep) CycleIndex--;
+        //             ChangeColor(Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White);
+        //         }
+        //         else
+        //         {
+        //             if (status == SubThemeStatus.NextStep) Sum += CycleIndex;
+        //             else if (status == SubThemeStatus.BackStep) Sum -= CycleIndex;
+        //             ChangeColor(Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White);
+        //         }
+        //     }
+        //     RectangleTextCode.Text.TextLine = UpdateTextCode();
+        // }
 
         private void ChangeColor(Brush beginEllipse, Brush cycle, Brush cycleBody, Brush result, Brush endEllipse)
         {
@@ -275,20 +307,10 @@ namespace TrainingProgram
             EndEllipse.Color = endEllipse;
         }
 
-        public void SizeChanged(EventArgs args, Size size)
-        {
-            // throw new NotImplementedException();
-        }
-    
-        public void Click(object sender, EventArgs args)
-        {
-            // throw new NotImplementedException();
-        }
-
         public void Close()
         {
             Shapes.Clear();
-            CycleIndex = 0;
+            InitializationFields();
         }
 
         public string GetName() => "For";

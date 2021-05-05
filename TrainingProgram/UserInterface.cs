@@ -23,7 +23,7 @@ namespace TrainingProgram
             InitializeComponent();
             this.themes = themes;
             Paint += (sender, args) => Drawing(args.Graphics);
-            Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
+            // Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
             AddThemeButtons(new Size(Size.Width / 10, Size.Height / 10));
         }
         
