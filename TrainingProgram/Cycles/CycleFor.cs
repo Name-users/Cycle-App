@@ -208,41 +208,42 @@ namespace TrainingProgram
             );
         }
         
-        protected override StateElements GoNext(SubThemeStatus status)
+        protected override List<StateElements> GoNext()
         {
-            Brush[] colors = null;
-            if (Index == StartCycleIndex - 1)
-            {
-                colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White};
-                
-            }            // else if(status == SubThemeStatus.Stay) return;
-            else if (CycleIndex == EndCycleIndex && Index % 2 == 0)
-            {
-                EndProgramm = false;
-                colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White};
-            }
-            else if (CycleIndex == EndCycleIndex && Index % 2 == 1)
-            {
-                EndProgramm = true;
-                colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green};
-            }
-            else
-            {
-                if (Index % 2 == 1)
-                {
-                    if (status == SubThemeStatus.NextStep) CycleIndex++;
-                    else if (status == SubThemeStatus.BackStep) CycleIndex--;
-                    colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White};
-                }
-                else
-                {
-                    if (status == SubThemeStatus.NextStep) Sum += CycleIndex;
-                    else if (status == SubThemeStatus.BackStep) Sum -= CycleIndex;
-                    colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White};
-                }
-            }
-            return new StateElements()
-                {StateOfCode = EndProgramm, Colors = colors, Index = Index, CycleIndex = CycleIndex, Sum = Sum};
+            return new List<StateElements>();
+            // Brush[] colors = null;
+            // if (Index == StartCycleIndex - 1)
+            // {
+            //     colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White};
+            //     
+            // }            // else if(status == SubThemeStatus.Stay) return;
+            // else if (CycleIndex == EndCycleIndex && Index % 2 == 0)
+            // {
+            //     EndProgramm = false;
+            //     colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White};
+            // }
+            // else if (CycleIndex == EndCycleIndex && Index % 2 == 1)
+            // {
+            //     EndProgramm = true;
+            //     colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green};
+            // }
+            // else
+            // {
+            //     if (Index % 2 == 1)
+            //     {
+            //         if (status == SubThemeStatus.NextStep) CycleIndex++;
+            //         else if (status == SubThemeStatus.BackStep) CycleIndex--;
+            //         colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White};
+            //     }
+            //     else
+            //     {
+            //         if (status == SubThemeStatus.NextStep) Sum += CycleIndex;
+            //         else if (status == SubThemeStatus.BackStep) Sum -= CycleIndex;
+            //         colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White};
+            //     }
+            // }
+            // return new StateElements()
+            //     {StateOfCode = EndProgramm, Colors = colors, Index = Index, CycleIndex = CycleIndex, Sum = Sum};
         }
         
         protected override void UpdateShapes(Brush[] colors)

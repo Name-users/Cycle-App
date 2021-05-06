@@ -3,3 +3,5 @@ bin
 obj/
 App.config
 *.txt
+Test.cs
+packages

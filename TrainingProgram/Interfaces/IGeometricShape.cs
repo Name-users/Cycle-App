@@ -7,6 +7,7 @@ namespace TrainingProgram
     public interface IGeometricShape
     {
         Text Text { get; set; }
+        
     }
 
     public interface IClosedLine : IGeometricShape
@@ -24,6 +25,11 @@ namespace TrainingProgram
         Point Point { get; }
         Size Size { get; }
         Brush Color { get; set; }
+        
+        Point GetRight();
+        Point GetLeft();
+        Point GetUp();
+        Point GetDown();
     }
     
     public interface IRectangleText : IGeometricShape
@@ -106,6 +112,26 @@ namespace TrainingProgram
             Text = text;
             Size = size;
         }
+        public Point GetRight()
+        {
+            return new Point(Point.X + Size.Width, Point.Y + Size.Height / 2);
+        }
+
+        public Point GetLeft()
+        {
+            return new Point(Point.X, Point.Y + Size.Height / 2);
+        }
+
+        public Point GetUp()
+        {
+            return new Point(Point.X + Size.Width / 2, Point.Y);
+        }
+
+        public Point GetDown()
+        {
+            return new Point(Point.X + Size.Width / 2, Point.Y + Size.Height);
+        }
+
     }
     
     public class RectangleText : IRectangleText

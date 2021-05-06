@@ -19,12 +19,14 @@ namespace TrainingProgram
         protected readonly int StartCycleIndex;
         protected readonly int EndCycleIndex;
         private string Description;
+        private List<StateElements> States;
 
         public CycleTemplate(int startCycleIndex, int endCycleIndex)
         {
             StartCycleIndex = startCycleIndex;
             EndCycleIndex = endCycleIndex;
             Description = ReadFromFile($"{GetName()}.txt");
+            States = GoNext();
             InitializationFields();
             AddShapes();
             AddLines();
@@ -72,37 +74,46 @@ namespace TrainingProgram
                 .ToList();
         }
 
-        protected abstract StateElements GoNext(SubThemeStatus status);
+        protected abstract List<StateElements> GoNext();
         protected abstract void UpdateShapes(Brush[] colors);
-        
+
+        private void UpdateFields(StateElements state)
+        {
+            EndProgramm = state.StateOfCode;
+            CycleIndex = state.CycleIndex;
+            Sum = state.Sum;
+        }
+
         public virtual IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status)
         {
             if(Shapes.Count == 0)
                 AddShapes();
             if (status == SubThemeStatus.Stay && Index == 0)
             {
-                var currentState = GoNext(status);
+                var currentState = States[Index];
+                UpdateFields(currentState);
                 UpdateShapes(currentState.Colors);
-                StackOfStates.Push(currentState);
+                // StackOfStates.Push(currentState);
             }
-            else if (status == SubThemeStatus.NextStep && CycleIndex <= EndCycleIndex && !EndProgramm)
+            else if (status == SubThemeStatus.NextStep && Index < States.Count - 1)
             {
                 Index++;
-                var currentState = GoNext(status);
+                var currentState = States[Index];
+                UpdateFields(currentState);
                 UpdateShapes(currentState.Colors);
-                StackOfStates.Push(currentState);
             }
-            else if (status == SubThemeStatus.BackStep && Index > StartCycleIndex)
+            else if (status == SubThemeStatus.BackStep && Index > 0)
             {
-                var currentState = StackOfStates.Pop();
-                EndProgramm = currentState.StateOfCode;
-                Index = currentState.Index;
-                CycleIndex = currentState.CycleIndex;
-                Sum = currentState.Sum;
+                Index--;
+                var currentState = States[Index];
+                UpdateFields(currentState);
                 UpdateShapes(currentState.Colors);
             }
             return Shapes.AsReadOnly();
         }
+        
+        
+        
         // public abstract IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status);
         public void Close()
         {
