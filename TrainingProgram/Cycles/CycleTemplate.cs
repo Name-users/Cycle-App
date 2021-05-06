@@ -10,12 +10,12 @@ namespace TrainingProgram
     public abstract class CycleTemplate : ITemplateSubTheme
     {
         protected List<IGeometricShape> Shapes = new List<IGeometricShape>();
-        protected readonly Stack<StateElements> StackOfStates = new Stack<StateElements>();
+        // protected readonly Stack<StateElements> StackOfStates = new Stack<StateElements>();
         protected Point LeftBorder = new Point(800, 100);
         protected int CycleIndex;
         protected int Index;
         protected int Sum;
-        protected bool EndProgramm;
+        // protected bool EndProgramm;
         protected readonly int StartCycleIndex;
         protected readonly int EndCycleIndex;
         private string Description;
@@ -79,7 +79,7 @@ namespace TrainingProgram
 
         private void UpdateFields(StateElements state)
         {
-            EndProgramm = state.StateOfCode;
+            // EndProgramm = state.StateOfCode;
             CycleIndex = state.CycleIndex;
             Sum = state.Sum;
         }
@@ -118,7 +118,7 @@ namespace TrainingProgram
         public void Close()
         {
             // Shapes.Clear();
-            StackOfStates.Clear();
+            // StackOfStates.Clear();
             InitializationFields();
         }
         public abstract string GetName();

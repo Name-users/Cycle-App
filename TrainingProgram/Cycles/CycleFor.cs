@@ -27,7 +27,7 @@ namespace TrainingProgram
         // private List<IGeometricShape> Shapes = new List<IGeometricShape>();
         // private Point LeftBorder = new Point(800, 100);
 
-        public CycleFor() : base(1, 10)
+        public CycleFor(int start, int end) : base(start, end)
         {
             
             // StartCycleIndex = 1;
@@ -39,177 +39,130 @@ namespace TrainingProgram
 
         protected override void InitializationFields()
         {
-            CycleIndex = StartCycleIndex - 1;
-            Index = CycleIndex;
+            // CycleIndex = StartCycleIndex - 1;
+            Index = 0;
             Sum = 0;
-            EndProgramm = false;
+            // EndProgramm = false;
         }
 
         protected override string UpdateTextCode()
         {
-            return $"var\n     i, sum: integer;\nbegin\n    for i:=1 to 10 do\n        sum += i;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex} \n{Index}";
+            return $"var\n     i, sum: integer;\nbegin\n    for i:={StartCycleIndex} to {EndCycleIndex} do\n        sum += i;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex} \n{Index}";
         }
 
         protected override void InitializationShapes()
         {
+            RectangleTextCode = new RectangleText(
+                new Size(400, 400),
+                Brushes.Red,
+                new Text() {Point = new Point(LeftBorder.X + 350, LeftBorder.Y + 50), 
+                    TextLine = UpdateTextCode()}
+            );
+            
             BeginEllipse = new Ellipse(
                 new Point(LeftBorder.X, LeftBorder.Y + 50),
                 new Size(200, 30),
                 Brushes.White,
                 new Text() {Point = new Point(LeftBorder.X + 50, LeftBorder.Y + 50), TextLine = "begin"}
             );
-            
-            RectangleTextCode = new RectangleText(
-                new Size(400, 400),
-                Brushes.Red,
-                new Text() {Point = new Point(LeftBorder.X + 350, LeftBorder.Y + 50), 
-                    TextLine = UpdateTextCode()}
-                );
-            
+
             Cycle = new ClosedLine(
                 new[]
                 {
-                    new Point(LeftBorder.X, LeftBorder.Y + 150),
-                    new Point(LeftBorder.X + 50, LeftBorder.Y + 125),
-                    new Point(LeftBorder.X + 150, LeftBorder.Y + 125),
-                    new Point(LeftBorder.X + 200, LeftBorder.Y + 150),
-                    new Point(LeftBorder.X + 150, LeftBorder.Y + 175),
-                    new Point(LeftBorder.X + 50, LeftBorder.Y + 175),
+                    // new Point(LeftBorder.X, LeftBorder.Y + 150),
+                    // new Point(LeftBorder.X + 50, LeftBorder.Y + 125),
+                    // new Point(LeftBorder.X + 150, LeftBorder.Y + 125),
+                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 150),
+                    // new Point(LeftBorder.X + 150, LeftBorder.Y + 175),
+                    // new Point(LeftBorder.X + 50, LeftBorder.Y + 175),
+                    new Point(LeftBorder.X, BeginEllipse.GetDown().Y + 50),
+                    new Point(LeftBorder.X + 50, BeginEllipse.GetDown().Y + 25),
+                    new Point(LeftBorder.X + 150, BeginEllipse.GetDown().Y + 25),
+                    new Point(LeftBorder.X + 200, BeginEllipse.GetDown().Y + 50),
+                    new Point(LeftBorder.X + 150, BeginEllipse.GetDown().Y + 75),
+                    new Point(LeftBorder.X + 50, BeginEllipse.GetDown().Y + 75),
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 23, LeftBorder.Y + 130), TextLine = "i:=1; 10; +1"}
+                new Text() {Point = new Point(LeftBorder.X + 23, BeginEllipse.GetDown().Y + 30), TextLine = "i:=1; 10; +1"}
             );
             CycleBody = new ClosedLine(
                 new[]
                 {
-                    new Point(LeftBorder.X, LeftBorder.Y + 225),
-                    new Point(LeftBorder.X + 200, LeftBorder.Y + 225),
-                    new Point(LeftBorder.X + 200, LeftBorder.Y + 275),
-                    new Point(LeftBorder.X, LeftBorder.Y + 275)
+                    new Point(LeftBorder.X, Cycle.GetDown().Y + 50),
+                    new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 50),
+                    new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 100),
+                    new Point(LeftBorder.X, Cycle.GetDown().Y + 100)
+                    // new Point(LeftBorder.X, LeftBorder.Y + 225),
+                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 225),
+                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 275),
+                    // new Point(LeftBorder.X, LeftBorder.Y + 275)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 25, LeftBorder.Y + 230), TextLine = "sum += i"}
+                new Text() {Point = new Point(LeftBorder.X + 25, Cycle.GetDown().Y + 55), TextLine = "sum += i"}
                 );
             Result = new ClosedLine(
                 new[]
                 {
-                    new Point(LeftBorder.X, LeftBorder.Y + 350),
-                    new Point(LeftBorder.X + 200, LeftBorder.Y + 350),
-                    new Point(LeftBorder.X + 200, LeftBorder.Y + 375),
-                    new Point(LeftBorder.X, LeftBorder.Y + 375)
+                    new Point(LeftBorder.X, CycleBody.GetDown().Y + 75),
+                    new Point(LeftBorder.X + 200, CycleBody.GetDown().Y + 75),
+                    new Point(LeftBorder.X + 200, CycleBody.GetDown().Y + 125),
+                    new Point(LeftBorder.X, CycleBody.GetDown().Y + 125)
+                    // new Point(LeftBorder.X, LeftBorder.Y + 350),
+                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 350),
+                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 375),
+                    // new Point(LeftBorder.X, LeftBorder.Y + 375)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, LeftBorder.Y + 348), TextLine = "sum"}
+                new Text() {Point = new Point(LeftBorder.X + 50, CycleBody.GetDown().Y + 80), TextLine = "sum"}
             );
             
             EndEllipse = new Ellipse(
-                new Point(LeftBorder.X, Result.Points.ToArray()[3].Y + 50),
+                new Point(LeftBorder.X, Result.GetDown().Y + 50),
                 new Size(200, 30),
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, Result.Points.ToArray()[3].Y + 50), TextLine = "end"}
+                new Text() {Point = new Point(LeftBorder.X + 50, Result.GetDown().Y + 50), TextLine = "end"}
             );
         }
-
+        
         protected override void AddLines()
         {
             var pen = new Pen(Color.Red,3);
             pen.CustomEndCap = new AdjustableArrowCap(4, 4);
-            var arrStart = Cycle.Points.ToArray();
-            var arrEnd = CycleBody.Points.ToArray();
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2, LeftBorder.Y + 75),
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2, arrStart[1].Y),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2,arrStart[4].Y),
-                new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2,arrEnd[0].Y),
-                pen,
-                new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2,arrEnd[3].Y),
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2,arrEnd[3].Y + 25),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2,arrEnd[3].Y + 25),
-                    new Point(LeftBorder.X - 25,arrEnd[3].Y + 25),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X - 25,arrEnd[3].Y + 25),
-                    new Point(LeftBorder.X - 25,arrStart[3].Y ),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X - 25,arrStart[3].Y ),
-                    new Point(LeftBorder.X,arrStart[3].Y ),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(arrStart[3].X, arrStart[3].Y),
-                    new Point(arrStart[3].X + 25, arrStart[3].Y),
-                    pen,
-                    new Text()
-                )
-            );
-
-            arrEnd = Result.Points.ToArray();
-            Shapes.Add(new Line(
-                    new Point(arrStart[3].X + 25, arrStart[3].Y),
-                    new Point(arrStart[3].X + 25, arrEnd[1].Y - 25),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(arrStart[3].X + 25, arrEnd[1].Y - 25),
-                    new Point(LeftBorder.X + (arrEnd[1].X - arrEnd[0].X) / 2, arrEnd[1].Y - 25),
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X + (arrEnd[1].X - arrEnd[0].X) / 2, arrEnd[1].Y - 25),
-                    new Point(LeftBorder.X + (arrEnd[1].X - arrEnd[0].X) / 2, arrEnd[1].Y),
-                    
-                    pen,
-                    new Text()
-                )
-            );
-            
-            Shapes.Add(new Line(
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2, arrEnd[2].Y),
-                    new Point(LeftBorder.X + (arrStart[3].X - arrStart[0].X) / 2, arrEnd[2].Y + 50),
-                    pen,
-                    new Text()
-                )
-            );
+            Shapes.AddRange(СonnectLines(pen, new []{BeginEllipse.GetDown(), Cycle.GetUp()}));
+            Shapes.AddRange(СonnectLines(pen, new []{Cycle.GetDown(), CycleBody.GetUp()}));
+            Shapes.AddRange(СonnectLines(pen, new []
+            {
+                Cycle.GetRight(), new Point(Cycle.GetRight().X + 25, Cycle.GetRight().Y),
+                new Point(Cycle.GetRight().X + 25, Result.GetUp().Y - 25),
+                new Point(Result.GetUp().X, Result.GetUp().Y - 25),
+                Result.GetUp()
+            }));
+            Shapes.AddRange(СonnectLines(pen, new []
+            {
+                CycleBody.GetDown(), new Point(CycleBody.GetDown().X, CycleBody.GetDown().Y + 25),
+                new Point(Cycle.GetLeft().X - 25, CycleBody.GetDown().Y + 25),
+                new Point(Cycle.GetLeft().X - 25, Cycle.GetLeft().Y),
+                Cycle.GetLeft()
+            }));
+            Shapes.AddRange(СonnectLines(pen, new []{Result.GetDown(), EndEllipse.GetUp()}));
         }
-        
+
         protected override List<StateElements> GoNext()
         {
+            var result = new List<StateElements>();
+            result.Add(new StateElements(){Colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});
+            for (var i = StartCycleIndex; i < EndCycleIndex; i++)
+            {
+                CycleIndex = i;
+                result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});
+                Sum += CycleIndex;
+                result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});
+            }
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = EndCycleIndex, Sum = Sum});
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White}, CycleIndex = EndCycleIndex, Sum = Sum});
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green}, CycleIndex = EndCycleIndex, Sum = Sum});
+
+            return result;
             return new List<StateElements>();
             // Brush[] colors = null;
             // if (Index == StartCycleIndex - 1)

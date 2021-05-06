@@ -24,15 +24,15 @@ namespace TrainingProgram
         }
         protected override void InitializationFields()
         {
-            CycleIndex = StartCycleIndex - 1;
-            Index = CycleIndex;
-            Sum = 0;
-            EndProgramm = false;
+            // CycleIndex = StartCycleIndex - 1;
+            Index = 0;
+            // Sum = 0;
+            // EndProgramm = false;
         }
 
         protected override string UpdateTextCode()
         {
-            return $"var\n     i, sum: integer;\nbegin\n    for i:=1 to 10 do\n        sum += i;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex} \n{Index}";
+            return $"var\n     i, sum: integer;\nbegin\n    i := {StartCycleIndex}\n    while i < {EndCycleIndex} do begin\n        sum += i;\n        i += 1;\n    end;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex}";
         }
 
         protected override void InitializationShapes()
@@ -59,13 +59,9 @@ namespace TrainingProgram
                     new Point(LeftBorder.X + 200, BeginEllipse.GetDown().Y + 25),
                     new Point(LeftBorder.X + 200, BeginEllipse.GetDown().Y + 50),
                     new Point(LeftBorder.X, BeginEllipse.GetDown().Y + 50)
-                    // new Point(LeftBorder.X, LeftBorder.Y + 100),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 100),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 125),
-                    // new Point(LeftBorder.X, LeftBorder.Y + 125)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, BeginEllipse.GetDown().Y + 25), TextLine = "i := 1"}
+                new Text() {Point = new Point(LeftBorder.X + 50, BeginEllipse.GetDown().Y + 25), TextLine = $"i := {StartCycleIndex}"}
             );
             
             Cycle = new ClosedLine(
@@ -76,16 +72,10 @@ namespace TrainingProgram
                     new Point(LeftBorder.X + 150, InitializationIndex.GetDown().Y + 25),
                     new Point(LeftBorder.X + 200, InitializationIndex.GetDown().Y + 50),
                     new Point(LeftBorder.X + 150, InitializationIndex.GetDown().Y + 75),
-                    new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 75),
-                    // new Point(LeftBorder.X, LeftBorder.Y + 175),
-                    // new Point(LeftBorder.X + 50, LeftBorder.Y + 150),
-                    // new Point(LeftBorder.X + 150, LeftBorder.Y + 150),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 175),
-                    // new Point(LeftBorder.X + 150, LeftBorder.Y + 200),
-                    // new Point(LeftBorder.X + 50, LeftBorder.Y + 200),
+                    new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 75)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 30), TextLine = "i < 10"}
+                new Text() {Point = new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 30), TextLine = $"i < {EndCycleIndex}"}
             );
             CycleBodySum = new ClosedLine(
                 new[]
@@ -94,10 +84,6 @@ namespace TrainingProgram
                     new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 50),
                     new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 75),
                     new Point(LeftBorder.X, Cycle.GetDown().Y + 75)
-                    // new Point(LeftBorder.X, LeftBorder.Y + 250),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 250),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 275),
-                    // new Point(LeftBorder.X, LeftBorder.Y + 275)
                 },
                 Brushes.White,
                 new Text() {Point = new Point(LeftBorder.X + 50, Cycle.GetDown().Y + 50), TextLine = "sum += i"}
@@ -109,10 +95,6 @@ namespace TrainingProgram
                     new Point(LeftBorder.X + 200, CycleBodySum.GetDown().Y + 50),
                     new Point(LeftBorder.X + 200, CycleBodySum.GetDown().Y + 75),
                     new Point(LeftBorder.X, CycleBodySum.GetDown().Y + 75)
-                    // new Point(LeftBorder.X, LeftBorder.Y + 325),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 325),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 350),
-                    // new Point(LeftBorder.X, LeftBorder.Y + 350)
                 },
                 Brushes.White,
                 new Text() {Point = new Point(LeftBorder.X + 50, CycleBodySum.GetDown().Y + 50), TextLine = "i += 1"}
@@ -124,10 +106,6 @@ namespace TrainingProgram
                     new Point(LeftBorder.X + 200, CycleBodyIndex.GetDown().Y + 75),
                     new Point(LeftBorder.X + 200, CycleBodyIndex.GetDown().Y + 100),
                     new Point(LeftBorder.X, CycleBodyIndex.GetDown().Y + 100)
-                    // new Point(LeftBorder.X, LeftBorder.Y + 425),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 425),
-                    // new Point(LeftBorder.X + 200, LeftBorder.Y + 450),
-                    // new Point(LeftBorder.X, LeftBorder.Y + 450)
                 },
                 Brushes.White,
                 new Text() {Point = new Point(LeftBorder.X + 50, CycleBodyIndex.GetDown().Y + 75), TextLine = "sum"}
@@ -168,64 +146,22 @@ namespace TrainingProgram
         
         protected override List<StateElements> GoNext()
         {
-            Brush[] colors = null;
             var result = new List<StateElements>();
-            result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, Index = Index, CycleIndex = CycleIndex, Sum = Sum});
-            result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, Index = Index, CycleIndex = 1, Sum = Sum});
-            for (var i = 1; i < 10; i++)
+            result.Add(new StateElements(){Colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = StartCycleIndex, Sum = Sum});
+            for (var i = StartCycleIndex; i < EndCycleIndex; i++)
             {
                 CycleIndex = i;
-                result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, Index = Index, CycleIndex = CycleIndex, Sum = Sum});
+                result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});
                 Sum += CycleIndex;
-                result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White}, Index = Index, CycleIndex = CycleIndex, Sum = Sum});
-                result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White}, Index = Index, CycleIndex = CycleIndex + 1, Sum = Sum});
+                result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});
+                result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White}, CycleIndex = CycleIndex + 1, Sum = Sum});
             }
-            result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, Index = Index, CycleIndex = CycleIndex + 1, Sum = Sum});
-            result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White}, Index = Index, CycleIndex = CycleIndex + 1, Sum = Sum});
-            result.Add(new StateElements(){StateOfCode = EndProgramm, Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green}, Index = Index, CycleIndex = CycleIndex + 1, Sum = Sum});
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = EndCycleIndex, Sum = Sum});
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White}, CycleIndex = EndCycleIndex, Sum = Sum});
+            result.Add(new StateElements(){Colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green}, CycleIndex = EndCycleIndex, Sum = Sum});
 
             return result;
-            
-            // if (Index == 0)
-            // {
-            //     colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White};
-            // }
-            // else if (Index == 1)
-            // {
-            //     CycleIndex = 1;
-            //     colors = new[] {Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White};
-            // }
-            // else if (CycleIndex == EndCycleIndex && Index % 2 == 0)
-            // {
-            //     EndProgramm = false;
-            //     colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White};
-            // }
-            // else if (CycleIndex == EndCycleIndex && Index % 2 == 1)
-            // {
-            //     EndProgramm = true;
-            //     colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green};
-            // } 
-            // else
-            // {
-            //     if (Index % 3 == 1)
-            //     {
-            //         if (status == SubThemeStatus.NextStep) CycleIndex++;
-            //         else if (status == SubThemeStatus.BackStep) CycleIndex--;
-            //         colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White};
-            //     }
-            //     if (Index % 3 == 0)
-            //     {
-            //         if (status == SubThemeStatus.NextStep) Sum += CycleIndex;
-            //         else if (status == SubThemeStatus.BackStep) Sum -= CycleIndex;
-            //         colors = new[] {Brushes.White, Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White};
-            //     }
-            //     if (Index % 3 == 2)
-            //     {
-            //         colors = new[] {Brushes.White, Brushes.White, Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White};
-            //     }
-            // }
-            // return new StateElements()
-            //     {StateOfCode = EndProgramm, Colors = colors, Index = Index, CycleIndex = CycleIndex, Sum = Sum};
         }
         
         protected override void UpdateShapes(Brush[] colors)
@@ -241,7 +177,5 @@ namespace TrainingProgram
         }
 
         public override string GetName() => "While";
-
-        
     }
 }
