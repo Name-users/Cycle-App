@@ -57,7 +57,6 @@
         <Compile Include="Cycles\CycleTemplate.cs" />
         <Compile Include="Cycles\CycleWhile.cs" />
         <Compile Include="Cycles\StateElements.cs" />
-        <Compile Include="Cycles\Test.cs" />
         <Compile Include="Extensions.cs" />
         <Compile Include="If else\IfElse.cs" />
         <Compile Include="Interfaces\IGeometricShape.cs" />

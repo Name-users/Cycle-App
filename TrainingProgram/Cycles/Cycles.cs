@@ -10,7 +10,5 @@ namespace TrainingProgram
         }
 
         public override string GetName() => "Cycles";
-
-        // public override Point Location() => new Point(0, 0);
     }
 }

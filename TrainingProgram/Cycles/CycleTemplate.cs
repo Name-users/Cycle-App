@@ -46,12 +46,6 @@ namespace TrainingProgram
                 .Select(f => f.GetValue(this))
                 .Cast<IGeometricShape>()
                 .ToList();
-            // Shapes.Add(new RectangleText(
-            //     new Size(400, 400),
-            //     Brushes.Red,
-            //     new Text() {Point = new Point(LeftBorder.X - 350, LeftBorder.Y + 50), 
-            //         TextLine = Description}
-            // ));
         }
 
         private string ReadFromFile(string fileName)
@@ -79,7 +73,6 @@ namespace TrainingProgram
 
         private void UpdateFields(StateElements state)
         {
-            // EndProgramm = state.StateOfCode;
             CycleIndex = state.CycleIndex;
             Sum = state.Sum;
         }
@@ -111,13 +104,8 @@ namespace TrainingProgram
             return Shapes.AsReadOnly();
         }
         
-        
-        
-        // public abstract IReadOnlyCollection<IGeometricShape> Paint(SubThemeStatus status);
         public void Close()
         {
-            // Shapes.Clear();
-            // StackOfStates.Clear();
             InitializationFields();
         }
         public abstract string GetName();
