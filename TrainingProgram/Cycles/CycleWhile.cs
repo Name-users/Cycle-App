@@ -24,10 +24,7 @@ namespace TrainingProgram
         }
         protected override void InitializationFields()
         {
-            // CycleIndex = StartCycleIndex - 1;
             Index = 0;
-            // Sum = 0;
-            // EndProgramm = false;
         }
 
         protected override string UpdateTextCode()
@@ -57,58 +54,56 @@ namespace TrainingProgram
                 {
                     new Point(LeftBorder.X, BeginEllipse.GetDown().Y + 25),
                     new Point(LeftBorder.X + 200, BeginEllipse.GetDown().Y + 25),
-                    new Point(LeftBorder.X + 200, BeginEllipse.GetDown().Y + 50),
-                    new Point(LeftBorder.X, BeginEllipse.GetDown().Y + 50)
+                    new Point(LeftBorder.X + 200, BeginEllipse.GetDown().Y + 75),
+                    new Point(LeftBorder.X, BeginEllipse.GetDown().Y + 75)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, BeginEllipse.GetDown().Y + 25), TextLine = $"i := {StartCycleIndex}"}
+                new Text() {Point = new Point(LeftBorder.X + 50, BeginEllipse.GetDown().Y + 30), TextLine = $"i := {StartCycleIndex}"}
             );
             
             Cycle = new ClosedLine(
                 new[]
                 {
-                    new Point(LeftBorder.X, InitializationIndex.GetDown().Y + 50),
-                    new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 25),
-                    new Point(LeftBorder.X + 150, InitializationIndex.GetDown().Y + 25),
-                    new Point(LeftBorder.X + 200, InitializationIndex.GetDown().Y + 50),
-                    new Point(LeftBorder.X + 150, InitializationIndex.GetDown().Y + 75),
-                    new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 75)
+                    new Point(InitializationIndex.GetLeft().X, InitializationIndex.GetLeft().Y + 75),
+                    new Point(InitializationIndex.GetDown().X, InitializationIndex.GetDown().Y + 25),
+                    new Point(InitializationIndex.GetRight().X, InitializationIndex.GetRight().Y + 75),
+                    new Point(InitializationIndex.GetDown().X, InitializationIndex.GetDown().Y + 75)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, InitializationIndex.GetDown().Y + 30), TextLine = $"i < {EndCycleIndex}"}
+                new Text() {Point = new Point(LeftBorder.X + 60, InitializationIndex.GetDown().Y + 30), TextLine = $"i < {EndCycleIndex}"}
             );
             CycleBodySum = new ClosedLine(
                 new[]
                 {
                     new Point(LeftBorder.X, Cycle.GetDown().Y + 50),
                     new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 50),
-                    new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 75),
-                    new Point(LeftBorder.X, Cycle.GetDown().Y + 75)
+                    new Point(LeftBorder.X + 200, Cycle.GetDown().Y + 100),
+                    new Point(LeftBorder.X, Cycle.GetDown().Y + 100)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, Cycle.GetDown().Y + 50), TextLine = "sum += i"}
+                new Text() {Point = new Point(LeftBorder.X + 50, Cycle.GetDown().Y + 60), TextLine = "sum += i"}
                 );
             CycleBodyIndex = new ClosedLine(
                 new[]
                 {
                     new Point(LeftBorder.X, CycleBodySum.GetDown().Y + 50),
                     new Point(LeftBorder.X + 200, CycleBodySum.GetDown().Y + 50),
-                    new Point(LeftBorder.X + 200, CycleBodySum.GetDown().Y + 75),
-                    new Point(LeftBorder.X, CycleBodySum.GetDown().Y + 75)
+                    new Point(LeftBorder.X + 200, CycleBodySum.GetDown().Y + 100),
+                    new Point(LeftBorder.X, CycleBodySum.GetDown().Y + 100)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, CycleBodySum.GetDown().Y + 50), TextLine = "i += 1"}
+                new Text() {Point = new Point(LeftBorder.X + 50, CycleBodySum.GetDown().Y + 60), TextLine = "i += 1"}
             );
             Result = new ClosedLine(
                 new[]
                 {
                     new Point(LeftBorder.X, CycleBodyIndex.GetDown().Y + 75),
                     new Point(LeftBorder.X + 200, CycleBodyIndex.GetDown().Y + 75),
-                    new Point(LeftBorder.X + 200, CycleBodyIndex.GetDown().Y + 100),
-                    new Point(LeftBorder.X, CycleBodyIndex.GetDown().Y + 100)
+                    new Point(LeftBorder.X + 200, CycleBodyIndex.GetDown().Y + 125),
+                    new Point(LeftBorder.X, CycleBodyIndex.GetDown().Y + 125)
                 },
                 Brushes.White,
-                new Text() {Point = new Point(LeftBorder.X + 50, CycleBodyIndex.GetDown().Y + 75), TextLine = "sum"}
+                new Text() {Point = new Point(LeftBorder.X + 50, CycleBodyIndex.GetDown().Y + 80), TextLine = "sum"}
             );
             
             EndEllipse = new Ellipse(
@@ -144,7 +139,7 @@ namespace TrainingProgram
             Shapes.AddRange(СonnectLines(pen, new []{Result.GetDown(), EndEllipse.GetUp()}));
         }
         
-        protected override List<StateElements> GoNext()
+        protected override List<StateElements> CreateStates()
         {
             var result = new List<StateElements>();
             result.Add(new StateElements(){Colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});

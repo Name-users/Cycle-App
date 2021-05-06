@@ -17,37 +17,20 @@ namespace TrainingProgram
         private IClosedLine CycleBody;
         private IClosedLine Result;
         private IEllipse EndEllipse;
-        // private readonly int StartCycleIndex;
-        // private readonly int EndCycleIndex;
-        // private readonly Stack<StateElements> stack;
-        // private int CycleIndex;
-        // private int Index;
-        // private int Sum;
-        // private bool EndProgramm;
-        // private List<IGeometricShape> Shapes = new List<IGeometricShape>();
-        // private Point LeftBorder = new Point(800, 100);
 
         public CycleFor(int start, int end) : base(start, end)
         {
-            
-            // StartCycleIndex = 1;
-            // EndCycleIndex = 10;
-            // stack = new Stack<StateElements>();
-            // InitializationFields();
-            // InitializationShapes();
         }
 
         protected override void InitializationFields()
         {
-            // CycleIndex = StartCycleIndex - 1;
             Index = 0;
             Sum = 0;
-            // EndProgramm = false;
         }
 
         protected override string UpdateTextCode()
         {
-            return $"var\n     i, sum: integer;\nbegin\n    for i:={StartCycleIndex} to {EndCycleIndex} do\n        sum += i;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex} \n{Index}";
+            return $"var\n     i, sum: integer;\nbegin\n    for i:={StartCycleIndex} to {EndCycleIndex} do\n        sum += i;\n    write(sum);\nend.\nsum = {Sum}\ni = {CycleIndex}";
         }
 
         protected override void InitializationShapes()
@@ -147,7 +130,7 @@ namespace TrainingProgram
             Shapes.AddRange(СonnectLines(pen, new []{Result.GetDown(), EndEllipse.GetUp()}));
         }
 
-        protected override List<StateElements> GoNext()
+        protected override List<StateElements> CreateStates()
         {
             var result = new List<StateElements>();
             result.Add(new StateElements(){Colors = new[] {Brushes.Green, Brushes.White, Brushes.White, Brushes.White, Brushes.White}, CycleIndex = CycleIndex, Sum = Sum});

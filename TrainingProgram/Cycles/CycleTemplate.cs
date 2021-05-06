@@ -26,7 +26,7 @@ namespace TrainingProgram
             StartCycleIndex = startCycleIndex;
             EndCycleIndex = endCycleIndex;
             Description = ReadFromFile($"{GetName()}.txt");
-            States = GoNext();
+            States = CreateStates();
             InitializationFields();
             AddShapes();
             AddLines();
@@ -74,7 +74,7 @@ namespace TrainingProgram
                 .ToList();
         }
 
-        protected abstract List<StateElements> GoNext();
+        protected abstract List<StateElements> CreateStates();
         protected abstract void UpdateShapes(Brush[] colors);
 
         private void UpdateFields(StateElements state)
@@ -93,7 +93,6 @@ namespace TrainingProgram
                 var currentState = States[Index];
                 UpdateFields(currentState);
                 UpdateShapes(currentState.Colors);
-                // StackOfStates.Push(currentState);
             }
             else if (status == SubThemeStatus.NextStep && Index < States.Count - 1)
             {
